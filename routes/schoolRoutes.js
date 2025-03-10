@@ -1,19 +1,25 @@
-require('dotenv').config()
+import { Router } from 'express';
+import { body, query, validationResult } from 'express-validator';
+import { addSchool, listSchools } from '../controllers/schoolController.js';
 
-const express = require('express')
-const cors=require('cors')
-const schoolRoutes = require('./routes/schoolRoutes');
+const router = Router();
 
-const app=express()
+router.post('/addSchool', 
+    [
+        body('name').notEmpty().withMessage('Name is required'),
+        body('address').notEmpty().withMessage('Address is required'),
+        body('latitude').isFloat({ min: -90, max: 90 }).withMessage('Invalid latitude'),
+        body('longitude').isFloat({ min: -180, max: 180 }).withMessage('Invalid longitude')
+    ],
+    addSchool
+);
 
-app.use(cors())
+router.get('/listSchools',
+    [
+        query('latitude').isFloat({ min: -90, max: 90 }).withMessage('Invalid latitude'),
+        query('longitude').isFloat({ min: -180, max: 180 }).withMessage('Invalid longitude')
+    ],
+    listSchools
+);
 
-app.use(express.json())
-
-app.use('/api/v1/schools',schoolRoutes)
-
-const PORT=process.env.PORT || 3000
-
-app.listen(PORT,()=>{
-    console.log(`Server is running on port ${PORT}`);
-})
+export default router;
