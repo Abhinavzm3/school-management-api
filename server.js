@@ -24,8 +24,8 @@ async function setupDatabase() {
       password: process.env.DB_PASSWORD,
     });
 
-    await connection.query('CREATE DATABASE IF NOT EXISTS school_management');
-    await connection.query('USE school_management');
+    await connection.query('CREATE DATABASE IF NOT EXISTS bcdkugs1mdccygwpmwsb');
+    await connection.query('USE bcdkugs1mdccygwpmwsb');
     await connection.query(`
       CREATE TABLE IF NOT EXISTS schools (
         id INT PRIMARY KEY AUTO_INCREMENT,
@@ -45,7 +45,7 @@ async function setupDatabase() {
 
 // Call setupDatabase() and then start the server
 app.get('/',(req,res)=>{
-   res.send("server is running")
+   res.send("School Management Backend Server is Running Here. Please use the API endpoints to access the data.")
 })
 setupDatabase().then(() => {
   // Routes
